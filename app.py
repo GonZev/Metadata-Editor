@@ -99,9 +99,8 @@ class MetadataApp:
             # change file name
             os.rename(self.ruta_mp3, file_name)
 
-            if self.ruta_portada:
-                audio_id3 = ID3(self.ruta_mp3)
-                with open(self.ruta_portada, "rb") as img:
+              audio_id3 = ID3(self.ruta_mp3)
+               with open(self.ruta_portada, "rb") as img:
                     audio_id3["APIC"] = APIC(
                         encoding=3,
                         mime="image/jpeg",
