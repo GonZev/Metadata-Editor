@@ -32,11 +32,12 @@ class AppFunctions:
         return None, None
 
     def save_metadata(
-            self,
-            entry_file_name,
-            entry_title,
-            entry_artist,
-            entry_album):
+        self,
+        entry_file_name,
+        entry_title,
+        entry_artist,
+        entry_album,
+            entry_date):
         if not self.path_mp3:
             messagebox.showerror('Error', 'Primero selecciona un archivo MP3.')
             return
@@ -44,6 +45,7 @@ class AppFunctions:
         title = entry_title
         artist = entry_artist
         album = entry_album
+        date = entry_date
 
         try:
             try:
@@ -59,6 +61,8 @@ class AppFunctions:
                 audio['artist'] = artist
             if album:
                 audio['album'] = album
+            if album:
+                audio['date'] = date
             audio.save()
 
             # change file name

@@ -59,6 +59,11 @@ class AppUI:
         self.entry_album = tk.Entry(root, width=50)
         self.entry_album.pack(padx=50, anchor='w')
 
+        tk.Label(root, text="Date (only year)", font='14',
+                 bg='gainsboro').pack(padx=50, anchor='w')
+        self.entry_date = tk.Entry(root, width=50)
+        self.entry_date.pack(padx=50, anchor='w')
+
         tk.Button(
             root,
             text="Select cover",
@@ -102,16 +107,19 @@ class AppUI:
             self.entry_file_name.get(),
             self.entry_titulo.get(),
             self.entry_artista.get(),
-            self.entry_album.get()
+            self.entry_album.get(),
+            self.entry_date
         )
         print('--- ENTRIES ---')
         print(self.entry_file_name.get())
         print(self.entry_titulo.get())
         print(self.entry_artista.get())
         print(self.entry_album.get())
+        print(self.entry_date.get())
         # CLEAR ENTRIES
         self.entry_file_name.delete(0, tk.END)
         self.entry_titulo.delete(0, tk.END)
         self.entry_artista.delete(0, tk.END)
         self.entry_album.delete(0, tk.END)
+        self.entry_date.delete(0, tk.END)
         self.label_portada.configure(text='Imagen no seleccionada')
