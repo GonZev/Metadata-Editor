@@ -5,7 +5,7 @@ if __name__ == "__main__":
     # --- Setup the main window ---
     root = tk.Tk()
     root.title("Audio Metadata Editor")
-    root.geometry("500x600")
+    root.geometry("600x720")
 
     # --- Create the UI ---
     # This creates an instance of our AppUI class,
