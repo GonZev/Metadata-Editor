@@ -1,6 +1,9 @@
 import tkinter as tk
 import os
+
 from function_app import AppFunctions
+
+from PIL import Image, ImageTk
 
 
 class AppUI:
@@ -22,34 +25,35 @@ class AppUI:
 
         button_select_song = tk.Button(
             root, font='12',
-            text="Seleccionar canción MP3",
+            text="Select file",
             command=self.on_select_mp3
         )
         button_select_song.pack(pady=5, padx=50, anchor='w')
 
         self.file_name = tk.Label(
             root,
-            text='Nombre de archivo',
+            text='Name of file',
             font='14',
             bg='gainsboro'
         ).pack(padx=50, anchor='w')
 
-        self.entry_file_name = tk.Entry(root, width=50)
+        self.entry_file_name = tk.Entry(
+            root, width=50)
         self.entry_file_name.pack(padx=50, anchor='w')
 
-        tk.Label(root, text="Título", font='14',
+        tk.Label(root, text="Title", font='14',
                  bg='gainsboro').pack(padx=50, anchor='w')
 
         self.entry_titulo = tk.Entry(root, width=50)
         self.entry_titulo.pack(padx=50, anchor='w')
 
-        tk.Label(root, text="Artista", font='14',
+        tk.Label(root, text="Artist", font='14',
                  bg='gainsboro').pack(padx=50, anchor='w')
 
         self.entry_artista = tk.Entry(root, width=50)
         self.entry_artista.pack(padx=50, anchor='w')
 
-        tk.Label(root, text="Álbum", font='14',
+        tk.Label(root, text="Album", font='14',
                  bg='gainsboro').pack(padx=50, anchor='w')
 
         self.entry_album = tk.Entry(root, width=50)
@@ -57,21 +61,24 @@ class AppUI:
 
         tk.Button(
             root,
-            text="Seleccionar portada (JPG)",
+            text="Select cover",
             font='14',
             command=self.select_cover_album).pack(pady=10, padx=50, anchor='w')
 
         self.label_portada = tk.Label(
             root,
-            text="Imagen no seleccionada",
+            text="Imagen no selected",
             font='12',
             bg='gainsboro'
         )
         self.label_portada.pack(padx=50, anchor='w')
 
         tk.Button(root,
-                  text='Guardar medatata',
-                  command=self.save).pack(padx=50, anchor='w')
+                  text='Save',
+                  font='Arial 14 bold',
+                  command=self.save,
+                  width=100, height=2,
+                  bg='green', fg='white').pack(padx=50, pady=20)
 
     # --- Functions to buttons ---
 
@@ -83,6 +90,12 @@ class AppUI:
 
     def select_cover_album(self):
         path_cover, label_cover = self.functions.select_cover_album()
+        # # Cargar imagen desde archivo (puede ser jpg, png, etc.)
+        image = Image.open(path_cover)
+        image = image.resize((200, 200))  # opcional: redimensionar
+        photo = ImageTk.PhotoImage(image)
+        self.label_portada.config(image=photo, text='')
+        self.label_portada.image = photo
 
     def save(self):
         self.functions.save_metadata(
@@ -101,3 +114,4 @@ class AppUI:
         self.entry_titulo.delete(0, tk.END)
         self.entry_artista.delete(0, tk.END)
         self.entry_album.delete(0, tk.END)
+        self.label_portada.configure(text='Imagen no seleccionada')
