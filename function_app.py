@@ -11,17 +11,18 @@ class AppFunctions:
         self.path_cover = ''
 
     def select_mp3_file(self):
+        self.path_mp3 = ''
         file = filedialog.askopenfilename(
             filetypes=[("Archivos MP3", "*.mp3")])
         if file:
             # this value is to use in ENTRY FILE NAME
             self.path_mp3 = file
             return self.path_mp3
-            # this value, use in LABEL MP3
-            # self.label_mp3 = os.path.basename(file)
         return None
 
     def select_cover_album(self):
+        self.path_cover = ''
+        self.label_cover = ''
         image = filedialog.askopenfilename(
             filetypes=[('Imágenes JPG', "*.jpg")]
         )

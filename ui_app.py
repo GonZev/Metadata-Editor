@@ -88,6 +88,8 @@ class AppUI:
     # --- Functions to buttons ---
 
     def on_select_mp3(self):
+        self.clear_entries()
+
         mp3_file = self.functions.select_mp3_file()
         if mp3_file:
             self.entry_file_name.insert(0, mp3_file)
@@ -108,15 +110,12 @@ class AppUI:
             self.entry_titulo.get(),
             self.entry_artista.get(),
             self.entry_album.get(),
-            self.entry_date
+            self.entry_date.get()
         )
-        print('--- ENTRIES ---')
-        print(self.entry_file_name.get())
-        print(self.entry_titulo.get())
-        print(self.entry_artista.get())
-        print(self.entry_album.get())
-        print(self.entry_date.get())
         # CLEAR ENTRIES
+        self.clear_entries()
+
+    def clear_entries(self):
         self.entry_file_name.delete(0, tk.END)
         self.entry_titulo.delete(0, tk.END)
         self.entry_artista.delete(0, tk.END)
