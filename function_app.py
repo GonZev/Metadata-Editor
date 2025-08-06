@@ -40,7 +40,7 @@ class AppFunctions:
         entry_album,
             entry_date):
         if not self.path_mp3:
-            messagebox.showerror('Error', 'Primero selecciona un archivo MP3.')
+            messagebox.showerror('Error', 'Fist select file MP3.')
             return
         file_name = entry_file_name
         title = entry_title
@@ -62,10 +62,14 @@ class AppFunctions:
             if title:
                 audio['title'] = title
             if artist:
-                audio['artist'] = artist
+                if "," in artist:
+                    artists = artist.split(',')
+                    audio['artist'] = artists
+                else:
+                    audio['artist'] = artist
             if album:
                 audio['album'] = album
-            if album:
+            if date:
                 audio['date'] = date
             audio.save()
 
