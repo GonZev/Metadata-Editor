@@ -48,6 +48,9 @@ class AppFunctions:
         album = entry_album
         date = entry_date
 
+        if not file_name.endswith(".mp3"):
+            file_name += ".mp3"
+
         try:
             try:
                 audio = EasyID3(self.path_mp3)
