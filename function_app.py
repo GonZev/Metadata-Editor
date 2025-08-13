@@ -12,7 +12,10 @@ class AppFunctions:
 
     def select_mp3_file(self):
         self.path_mp3 = ''
+        home_dir = os.path.expanduser("~")
         file = filedialog.askopenfilename(
+            title="Select mp3",
+            initialdir=os.path.join(home_dir, "Music"),
             filetypes=[("Archivos MP3", "*.mp3")])
         if file:
             # this value is to use in ENTRY FILE NAME
@@ -23,7 +26,10 @@ class AppFunctions:
     def select_cover_album(self):
         self.path_cover = ''
         self.label_cover = ''
+        home_dir = os.path.expanduser("~")
         image = filedialog.askopenfilename(
+            title="Select image",
+            initialdir=os.path.join(home_dir, "Pictures"),
             filetypes=[('Imágenes JPG', "*.jpg")]
         )
         if image:
@@ -59,40 +65,49 @@ class AppFunctions:
                 audio.save(self.path_mp3)
                 audio = EasyID3(self.path_mp3)
 
-            if title:
-                audio['title'] = title
-            if artist:
-                if "," in artist:
-                    artists = artist.split(',')
-                    audio['artist'] = artists
-                else:
-                    audio['artist'] = artist
-            if album:
-                audio['album'] = album
-            if date:
-                audio['date'] = date
-            audio.save()
+            set_metadata(audio, title, artist, album, date)
+            set_cover_album(self.path_cover, self.path_mp3)
 
             # change file name
             os.rename(self.path_mp3, file_name)
-            if self.path_cover:
-                audio_id3 = ID3(self.path_mp3)
-                mime_type = mimetypes.guess_type(self.path_cover)
-                img_type = 'image/jpeg'
-                if mime_type[0]:
-                    img_type = mime_type[0]
-                for key in list(audio_id3.keys()):
-                    if key.startswith('APIC'):
-                        del audio_id3[key]
-                with open(self.path_cover, 'rb') as img:
-                    audio_id3['APIC'] = APIC(
-                        encoding=3,
-                        mime=img_type,
-                        type=3,
-                        desc='Cover',
-                        data=img.read()
-                    )
-                audio_id3.save()
+
             messagebox.showinfo('Éxito', 'Metadata guardada correctamente.')
         except Exception as e:
             messagebox.showerror('Error', f"Ocurrió un error: {str(e)}")
+
+
+def set_metadata(audio, title, artist, album, date):
+    if title:
+        audio['title'] = title
+    if artist:
+        if "," in artist:
+            artists = artist.split(',')
+            audio['artist'] = artists
+        else:
+            audio['artist'] = artist
+    if album:
+        audio['album'] = album
+    if date:
+        audio['date'] = date
+    audio.save()
+
+
+def set_cover_album(path_cover, path_mp3):
+    if path_cover:
+        audio_id3 = ID3(path_mp3)
+        mime_type = mimetypes.guess_type(path_cover)
+        img_type = 'image/jpeg'
+        if mime_type[0]:
+            img_type = mime_type[0]
+        for key in list(audio_id3.keys()):
+            if key.startswith('APIC'):
+                del audio_id3[key]
+        with open(path_cover, 'rb') as img:
+            audio_id3['APIC'] = APIC(
+                encoding=3,
+                mime=img_type,
+                type=3,
+                desc='Cover',
+                data=img.read()
+            )
+        audio_id3.save()

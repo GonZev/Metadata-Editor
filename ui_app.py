@@ -95,7 +95,8 @@ class AppUI:
             frame_cover,
             text="Select cover",
             font='14',
-            command=self.select_cover_album).pack(pady=10, anchor='w', side='left')
+            command=self.select_cover_album).pack(pady=10, anchor='w',
+                                                  side='left')
 
         self.check_var_cover = tk.BooleanVar()
         check_cover = tk.Checkbutton(frame_cover, text="Don't delete",
@@ -110,12 +111,15 @@ class AppUI:
         )
         self.label_portada.pack(padx=50, anchor='w')
 
-        tk.Button(root,
+        frame_btn_save = tk.Frame(root, width=150, height=30, bg="#d3d3d3")
+        frame_btn_save.pack(padx=50, pady=20)
+        frame_btn_save.pack_propagate(False)
+        tk.Button(frame_btn_save,
                   text='Save',
                   font='Arial 14 bold',
                   command=self.save,
                   width=100, height=2,
-                  bg='green', fg='white').pack(padx=50, pady=20)
+                  bg='green', fg='white').pack()
 
     # --- Functions to buttons ---
 
@@ -131,7 +135,7 @@ class AppUI:
         path_cover, label_cover = self.functions.select_cover_album()
         # # Cargar imagen desde archivo (puede ser jpg, png, etc.)
         image = Image.open(path_cover)
-        image = image.resize((200, 200))  # opcional: redimensionar
+        image = image.resize((150, 150))  # opcional: redimensionar
         photo = ImageTk.PhotoImage(image)
         self.label_portada.config(image=photo, text='')
         self.label_portada.image = photo
